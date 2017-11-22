@@ -130,6 +130,26 @@ func (self *Vxlan) SwitchConnected(sw *ofctrl.OFSwitch) {
 	self.initFgraph()
 
 	log.Infof("Switch connected(vxlan)")
+
+	// If vlanDb is populated and switch is connected, this implies
+	// we reconnected to a switch again. In this case, we have to
+	// update the current vlan entry to use a new switch object
+	if len(self.vlanDb) != 0 {
+		for vlanId, vlan := range self.vlanDb {
+			log.Debugf(" Updating vlan %s switch object", vlanId)
+			var err error
+			vlan.localFlood, err = self.ofSwitch.NewFlood()
+			if err != nil {
+				log.Errorf("Unable to assign new switch to vlan %s local flood", vlanId)
+				return
+			}
+			vlan.allFlood, err = self.ofSwitch.NewFlood()
+			if err != nil {
+				log.Errorf("Unable to assign new switch to vlan %s all flood", vlanId)
+				return
+			}
+		}
+	}
 }
 
 // Handle switch disconnected notification
