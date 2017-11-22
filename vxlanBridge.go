@@ -141,12 +141,12 @@ func (self *Vxlan) SwitchConnected(sw *ofctrl.OFSwitch) {
 			var err error
 			vlan.localFlood, err = self.ofSwitch.NewFlood()
 			if err != nil {
-				log.Errorf("Unable to assign new switch to vlan %s local flood", vlanId)
+				log.Errorf("Unable to assign new switch to vlan %v local flood", vlanId)
 				os.Exit(1)
 			}
 			vlan.allFlood, err = self.ofSwitch.NewFlood()
 			if err != nil {
-				log.Errorf("Unable to assign new switch to vlan %s all flood", vlanId)
+				log.Errorf("Unable to assign new switch to vlan %v all flood", vlanId)
 				os.Exit(1)
 			}
 		}
