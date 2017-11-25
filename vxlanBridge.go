@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"net"
 	"net/rpc"
-	"os"
 	"strings"
 
 	"github.com/contiv/libOpenflow/openflow13"
@@ -141,13 +140,11 @@ func (self *Vxlan) SwitchConnected(sw *ofctrl.OFSwitch) {
 			var err error
 			vlan.localFlood, err = self.ofSwitch.NewFlood()
 			if err != nil {
-				log.Errorf("Unable to assign new switch to vlan %v local flood", vlanId)
-				os.Exit(1)
+				log.Fatalf("Unable to assign new switch to vlan %v local flood", vlanId)
 			}
 			vlan.allFlood, err = self.ofSwitch.NewFlood()
 			if err != nil {
-				log.Errorf("Unable to assign new switch to vlan %v all flood", vlanId)
-				os.Exit(1)
+				log.Fatalf("Unable to assign new switch to vlan %v all flood", vlanId)
 			}
 		}
 	}
